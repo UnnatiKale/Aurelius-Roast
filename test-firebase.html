@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Connection Test | Aurelius Roast</title>
+    <link rel="icon" href="assets/coffee.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .test-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(111, 78, 55, 0.05);
+            max-width: 600px;
+            margin: 150px auto 40px;
+        }
+        .console-log {
+            background: #2e2c29;
+            color: #a6e22e;
+            font-family: monospace;
+            padding: 20px;
+            border-radius: 12px;
+            min-height: 150px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+            text-align: left;
+            white-space: pre-wrap;
+            border: 1px solid #3e3b38;
+        }
+        .log-entry {
+            margin-bottom: 8px;
+        }
+        .log-info { color: #ffffff; }
+        .log-success { color: #a6e22e; font-weight: bold; }
+        .log-error { color: #f92672; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">Aurelius Roast</a>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="index.html#about">Our Story</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="cart.html" class="cart-link"><i class="fa-solid fa-cart-shopping"></i> <span class="cart-badge">0</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="min-height: 80vh; background-color: var(--bg-primary);">
+        <div class="container">
+            <div class="test-card">
+                <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 10px; font-size: 2.2rem; text-align: center;">Firebase Connection Diagnostics</h2>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">
+                    This diagnostic utility tests the connection to your Firebase Auth and Firestore Database services using the credentials defined in <code>firebase-config.js</code>.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 15px;">
+                    <button id="runDiagnosticsBtn" class="btn btn-primary">Run Database Test</button>
+                    <a href="index.html" class="btn btn-secondary" style="text-decoration: none;">Back to Website</a>
+                </div>
+                <div class="console-log" id="consoleLog">
+                    <div class="log-entry log-info">[Info] Click the button above to begin diagnostics...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { db, auth } from './firebase-config.js';
+        import { doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const runBtn = document.getElementById('runDiagnosticsBtn');
+        const consoleLog = document.getElementById('consoleLog');
+
+        function log(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            const time = new Date().toLocaleTimeString();
+            entry.textContent = `[${time}] ${message}`;
+            consoleLog.appendChild(entry);
+            consoleLog.scrollTop = consoleLog.scrollHeight;
+        }
+
+        runBtn.addEventListener('click', async () => {
+            consoleLog.innerHTML = '';
+            runBtn.disabled = true;
+            runBtn.textContent = "Testing...";
+            
+            log("Starting Firebase diagnostics...");
+            
+            // Step 1: Check Initialization
+            try {
+                if (!db) throw new Error("Firestore instance 'db' is undefined.");
+                if (!auth) throw new Error("Auth instance 'auth' is undefined.");
+                log("Firebase SDK initialized successfully.", "success");
+            } catch (err) {
+                log(`Initialization Error: ${err.message}`, "error");
+                runBtn.disabled = false;
+                runBtn.textContent = "Run Database Test";
+                return;
+            }
+
+            // Step 2: Try a test write & read in Firestore
+            try {
+                log("Attempting write operation on Firestore collection 'connection_test'...");
+                const testDocRef = doc(db, "connection_test", "test_id");
+                
+                await setDoc(testDocRef, {
+                    status: "connected",
+                    timestamp: new Date(),
+                    client: navigator.userAgent
+                });
+                log("Write operation successful!", "success");
+
+                log("Attempting read operation on the written document...");
+                const docSnap = await getDoc(testDocRef);
+                if (docSnap.exists()) {
+                    log(`Read successful! Retrieved data: ${JSON.stringify(docSnap.data())}`, "success");
+                } else {
+                    throw new Error("Document was written but could not be read back.");
+                }
+
+                log("Attempting to clean up (delete) the test document...");
+                await deleteDoc(testDocRef);
+                log("Clean-up successful!", "success");
+                
+                log("Database is FULLY connected and operating properly!", "success");
+            } catch (err) {
+                log(`Firestore Write/Read Error: ${err.message}`, "error");
+                log("HINT: Ensure Firestore Database is created in your Firebase Console and your Security Rules permit reads/writes.", "info");
+            }
+
+            runBtn.disabled = false;
+            runBtn.textContent = "Run Database Test";
+        });
+    </script>
+</body>
+</html>

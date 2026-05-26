@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu | Aurelius Roast</title>
+    <link rel="icon" href="assets/coffee.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">Aurelius Roast</a>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html" class="active">Menu</a></li>
+                    <li><a href="index.html#about">Our Story</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="cart.html" class="cart-link"><i class="fa-solid fa-cart-shopping"></i> <span class="cart-badge">0</span></a></li>
+                </ul>
+            </nav>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="menu" class="menu-section" style="padding-top: 150px; min-height: 100vh;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="subtitle">Our Signature Blends</span>
+                    <h2>The Menu</h2>
+                </div>
+
+                <div class="menu-controls container">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="menuSearch" placeholder="Search our flavors...">
+                    </div>
+                    <div class="filter-btns">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="coffee">Coffee</button>
+                        <button class="filter-btn" data-filter="cold">Cold Brews</button>
+                        <button class="filter-btn" data-filter="food">Bakery</button>
+                    </div>
+                </div>
+                
+                <div class="menu-grid" id="menuGrid">
+                    <!-- Coffee -->
+                    <div class="menu-card scroll-reveal" data-category="coffee">
+                        <div class="card-img">
+                            <img src="assets/espresso_premium.png" alt="Espresso" />
+                        </div>
+                        <div class="card-body">
+                            <h3>Espresso</h3>
+                            <p>A concentrated, bold shot of pure coffee essence with a rich crema.</p>
+                            <span class="price">₹180</span>
+                             <i class="fa-solid fa-cart-plus add-to-cart" data-name="Espresso" data-price="180"
+                                data-image="assets/espresso_premium.png"></i>
+                        </div>
+                    </div>
+
+                    <div class="menu-card scroll-reveal" data-category="coffee">
+                        <div class="card-img">
+                            <img src="assets/latte_premium.png" alt="Latte Art">
+                        </div>
+                        <div class="card-body">
+                            <h3>Latte</h3>
+                            <p>Smooth espresso combined with silky steamed milk and a thin layer of foam.</p>
+                            <span class="price">₹240</span>
+                             <i class="fa-solid fa-cart-plus add-to-cart" data-name="Latte" data-price="240"
+                                data-image="assets/latte_premium.png"></i>
+                        </div>
+                    </div>
+
+                    <div class="menu-card scroll-reveal" data-category="coffee">
+                        <div class="card-img">
+                            <img src="assets/cappuccino_premium.png" alt="Cappuccino">
+                        </div>
+                        <div class="card-body">
+                            <h3>Cappuccino</h3>
+                            <p>The perfect balance of espresso, steamed milk, and heavy velvety foam.</p>
+                            <span class="price">₹220</span>
+                             <i class="fa-solid fa-cart-plus add-to-cart" data-name="Cappuccino" data-price="220"
+                                data-image="assets/cappuccino_premium.png"></i>
+                        </div>
+                    </div>
+
+                    <div class="menu-card scroll-reveal" data-category="coffee">
+                        <div class="card-img">
+                            <img src="assets/americano_premium.png" alt="Americano" />
+                        </div>
+                        <div class="card-body">
+                            <h3>Americano</h3>
+                            <p>Italian style espresso diluted with hot water for a smooth, rich finish.</p>
+                            <span class="price">₹190</span>
+                             <i class="fa-solid fa-cart-plus add-to-cart" data-name="Americano" data-price="190"
+                                data-image="assets/americano_premium.png"></i>
+                        </div>
+                    </div>
+
+                    <div class="menu-card scroll-reveal" data-category="coffee">
+                        <div class="card-img">
+                            <img src="assets/flat_white_premium.png" alt="Flat White">
+                        </div>
+                        <div class="card-body">
+                            <h3>Flat White</h3>
+                            <p>Micro-foam poured over a double shot of espresso for a creamy texture.</p>
+                            <span class="price">₹260</span>
+                             <i class="fa-solid fa-cart-plus add-to-cart" data-name="Flat White" data-price="260"
+                                data-image="assets/flat_white_premium.png"></i>
+                        </div>
+                    </div>
+
+                    <!-- Cold -->
+                    <div class="menu-card scroll-reveal" data-category="cold">
+                        <div class="card-img">
+                            <img src="assets/cold_brew_premium.png" alt="Cold Brew">
+                        </div>
+                        <div class="card-body">
+                            <h3>Classic Cold Brew</h3>
+                            <p>Steeped for 18 hours for a smooth, low-acid, and naturally sweet taste.</p>
+                            <span class="price">₹210</span>
+                             <i class="fa-solid fa-cart-plus add-to-cart" data-name="Classic Cold Brew" data-price="210"
+                                data-image="assets/cold_brew_premium.png"></i>
+                        </div>
+                    </div>
+
+                    <div class="menu-card scroll-reveal" data-category="cold">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&q=80&w=800" alt="Iced Latte">
+                        </div>
+                        <div class="card-body">
+                            <h3>Iced Caramel Macchiato</h3>
+                            <p>Fresh milk and vanilla syrup marked with espresso and drizzled with caramel.</p>
+                            <span class="price">₹280</span>
+                            <i class="fa-solid fa-cart-plus add-to-cart" data-name="Iced Caramel Macchiato" data-price="280"
+                            data-image="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&q=80&w=800"></i>
+                        </div>
+                    </div>
+
+                    <!-- Food -->
+                    <div class="menu-card scroll-reveal" data-category="food">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=800" alt="Croissant">
+                        </div>
+                        <div class="card-body">
+                            <h3>Butter Croissant</h3>
+                            <p>Flaky, golden pastry made with 100% French butter. Baked fresh daily.</p>
+                            <span class="price">₹150</span>
+                            <i class="fa-solid fa-cart-plus add-to-cart" data-name="Butter Croissant" data-price="150"
+                            data-image="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=800"></i>
+                        </div>
+                    </div>
+
+                    <div class="menu-card scroll-reveal" data-category="food">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&q=80&w=800" alt="Avocado Toast">
+                        </div>
+                        <div class="card-body">
+                            <h3>Avocado Toast</h3>
+                            <p>Sourdough bread topped with smashed avocado, chili flakes, and a poached egg.</p>
+                            <span class="price">₹320</span>
+                            <i class="fa-solid fa-cart-plus add-to-cart" data-name="Avocado Toast" data-price="320"
+                                data-image="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&q=80&w=800"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Aurelius Roast. Crafted with passion.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="p5-elements.js"></script>
+</body>
+
+</html>

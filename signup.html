@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join the Brew Club | Aurelius Roast</title>
+    <link rel="icon" href="assets/coffee.png" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">Aurelius Roast</a>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="index.html#about">Our Story</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="cart.html" class="cart-link"><i class="fa-solid fa-cart-shopping"></i> <span class="cart-badge">0</span></a></li>
+                </ul>
+            </nav>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="login-page" style="padding-top: 120px;">
+        <div class="login-card">
+            <h2>Join the Brew Club</h2>
+            <p>Become a member for exclusive access to small-batch roasts and brewing masterclasses.</p>
+            
+            <form class="login-form" id="signupForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="John Doe" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="name@example.com" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required />
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="••••••••" required />
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Create Account</button>
+            </form>
+            
+            <div class="login-footer">
+                <p>Already a member? <a href="login.html">Sign In</a></p>
+                <p style="margin-top: 15px;"><a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script type="module">
+        import { auth, db } from './firebase-config.js';
+        import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const signupForm = document.getElementById('signupForm');
+        if (signupForm) {
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fullName = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const pass = document.getElementById('password').value;
+                const confirm = document.getElementById('confirmPassword').value;
+                
+                if (pass !== confirm) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+                
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+                    // Add Display Name
+                    await updateProfile(userCredential.user, {
+                        displayName: fullName
+                    });
+
+                    // Store in Firestore
+                    await setDoc(doc(db, "users", userCredential.user.uid), {
+                        fullName: fullName,
+                        email: email,
+                        createdAt: new Date()
+                    });
+                    
+                    alert("Welcome to the Brew Club! Your account has been created.");
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    console.error("Signup Error:", error.message);
+                    alert("Error: " + error.message);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

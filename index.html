@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurelius Roast | Premium Coffee Roastery</title>
+    <link rel="icon" href="assets/coffee.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+    <!-- p5.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+
+    <script type="module" src="script.js"></script>
+
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Aurelius Roast</a>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="#about">Our Story</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="fade-in">Experience coffee, <br><span>Perfectly</span> roasted.</h1>
+                <p class="fade-in">Discover the depth of flavor in every cup. Sustainably sourced, roasted in small
+                    batches, and crafted for your daily ritual.</p>
+                <div class="hero-btns fade-in">
+                    <a href="menu.html" class="btn btn-primary">View Menu</a>
+                    <a href="#about" class="btn btn-secondary">Our Story</a>
+                </div>
+            </div>
+            <div class="hero-overlay"></div>
+        </section>
+
+        <section class="features-section">
+            <div class="container flex-grid">
+                <div class="feature-item scroll-reveal">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Ethically Sourced</h3>
+                    <p>Direct trade relationships with farmers to ensure sustainability.</p>
+                </div>
+                <div class="feature-item scroll-reveal">
+                    <i class="fas fa-fire"></i>
+                    <h3>Small Batch</h3>
+                    <p>Roasted in 10kg batches to maintain ultimate profile precision.</p>
+                </div>
+                <div class="feature-item scroll-reveal">
+                    <i class="fas fa-medal"></i>
+                    <h3>Artisanal Craft</h3>
+                    <p>Every pour is a masterpiece, crafted by award-winning baristas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="container grid-2">
+                <div class="about-text scroll-reveal">
+                    <span class="subtitle">Founded 2026</span>
+                    <h2>A New Chapter in Coffee.</h2>
+                    <p>Aurelius Roast was born from a desire to redefine the modern cafe experience. We focus on
+                        transparency, sustainability, and exceptional flavor profiles.</p>
+                    <p>As a newcomers to the roasting scene, we bring a fresh perspective to every batch, using
+                        cutting-edge techniques to highlight the best of what every bean has to offer.</p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-num">New</span>
+                            <span class="stat-label">Modern Roastery</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num">Pure</span>
+                            <span class="stat-label">Origin Quality</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual scroll-reveal">
+                    <div class="visual-wrapper">
+                        <img src="assets/coffee.png" alt="Coffee beans">
+                        <div class="experience-badge">
+                            <span>Est. 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="quote-section">
+            <div class="container scroll-reveal">
+                <blockquote class="coffee-quote">
+                    "Coffee is a language in itself."
+                    <cite>— Professional Roasters League</cite>
+                </blockquote>
+            </div>
+        </section>
+
+        <section class="newsletter-section">
+            <div class="container scroll-reveal">
+                <div class="newsletter-box">
+                    <h2>Join the Brew Club</h2>
+                    <p>Subscribe to get exclusive access to small-batch roasts and brewing tips.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="main-footer">
+            <div class="container">
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Aurelius Roast. Crafted with passion.</p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="script.js"></script>
+        <script src="p5-elements.js"></script>
+        <script type="module">
+            import { db } from './firebase-config.js';
+            import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const emailInput = newsletterForm.querySelector('input[type="email"]');
+                    const email = emailInput.value;
+
+                    try {
+                        await addDoc(collection(db, "subscriptions"), {
+                            email: email,
+                            timestamp: new Date()
+                        });
+                        alert("Cheers! You've joined the Brew Club newsletter.");
+                        newsletterForm.reset();
+                    } catch (error) {
+                        console.error("Subscription Error:", error);
+                        alert("Something went wrong. Please try again later.");
+                    }
+                });
+            }
+        </script>
+</body>
+
+</html>
